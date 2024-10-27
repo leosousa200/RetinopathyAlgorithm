@@ -130,6 +130,10 @@ ENV/
 env.bak/
 venv.bak/
 
+# Dataset
+/gaussian_ds
+
+
 # Spyder project settings
 .spyderproject
 .spyproject
