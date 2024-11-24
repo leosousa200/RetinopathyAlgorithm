@@ -8,40 +8,30 @@ DIMY = 64
 def prep_translearn(model: tf.keras.Model, top_layers_to_cut: int, out_dim: int, learning_rate: float) -> tf.keras.Model:
     """
     Prepares a model for transfer learning by modifying the top layers and adding new ones.
-
-    Args:
-        model (tf.keras.Model): The original pre-trained model.
-        top_layers_to_cut (int): The number of top layers to remove from the original model.
-        out_dim (int): The output dimension of the new model (number of classes).
-        learning_rate (float): The learning rate for model training.
-
-    Returns:
-        tf.keras.Model: The modified model ready for transfer learning.
     """
-    # Define a new input layer that matches the input shape of the original model
-    new_input = tf.keras.Input(shape=(DIMX, DIMY, 3), name="NEW_input")
+    # Define a new input layer matching the original model's input
+    new_input = tf.keras.Input(shape=model.input_shape[1:], name="NEW_input")
 
-    # Reconnect all layers of the original model to the new input, excluding the top layers
+    # Reconnect layers from the original model
     x = new_input
-    for layer in model.layers[1:-top_layers_to_cut]:
-        layer.trainable = False  # Ensure the layer is not trainable
-        # for BatchNormalization in finetuning if unfreezed
-        x = layer(x, training=False)
+    for i, layer in enumerate(model.layers[:-top_layers_to_cut]):
+        if isinstance(layer, tf.keras.layers.BatchNormalization):
+            x = layer(x, training=False)
+        else:
+            x = layer(x)
+        print(f"After layer {i} ({layer.name}), shape: {x.shape}")
 
-    # Add new layers for fine-tuning
+    # Add new fine-tuning layers
     x = tf.keras.layers.Flatten(name="NEW_FLAT")(x)
-    x = tf.keras.layers.Dense(
-        HIDDEN, activation='relu', name="NEW_Signature")(x)
-    output = tf.keras.layers.Dense(
-        out_dim, activation='softmax', name="NEW_output")(x)
+    x = tf.keras.layers.Dense(128, activation='relu', name="NEW_Signature")(x)
+    output = tf.keras.layers.Dense(out_dim, activation='softmax', name="NEW_output")(x)
 
-    # Create a new model
-    model = tf.keras.models.Model(inputs=new_input, outputs=output)
+    # Create and compile the new model
+    new_model = tf.keras.models.Model(inputs=new_input, outputs=output)
+    compile_model(new_model, learning_rate)
 
-    compile_model(model, learning_rate)
-    # show_layers(model)
-    model.summary(show_trainable=True)
-    return model
+    return new_model
+
 
 
 

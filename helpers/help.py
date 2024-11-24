@@ -65,6 +65,7 @@ def build_dataset(x,y,repeat=True,batch=16, shuffle = True):
 
     return dataset
 
+(64, 64, 3)
 
 def simple_model(input_shape):
     model = Sequential()
