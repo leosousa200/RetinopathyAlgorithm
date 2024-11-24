@@ -5,6 +5,7 @@ from keras.models import Sequential
 from keras.layers import Conv2D, MaxPooling2D, Dropout, Flatten, Dense, Activation, BatchNormalization
 from tensorflow.keras.optimizers import Adam
 
+
 def parse_function(filename, label):
     
     img = tf.io.read_file(filename)
@@ -98,3 +99,4 @@ def append_history(losses, val_losses, accuracy, val_accuracy, history):
     accuracy = accuracy + history.history["binary_accuracy"]
     val_accuracy = val_accuracy + history.history["val_binary_accuracy"]
     return losses, val_losses, accuracy, val_accuracy
+
