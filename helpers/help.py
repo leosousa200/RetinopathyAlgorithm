@@ -10,7 +10,8 @@ def parse_function(filename, label):
     
     img = tf.io.read_file(filename)
     img= tf.image.decode_image(img,channels=3,expand_animations = False)
-    img=resize(img, (64,64))
+    #img=resize(img, (64,64))
+    img=resize(img, (224,224))
     img = tf.cast(img, tf.float32)/255
     return img, label
 
@@ -65,7 +66,6 @@ def build_dataset(x,y,repeat=True,batch=16, shuffle = True):
 
     return dataset
 
-(64, 64, 3)
 
 def simple_model(input_shape):
     model = Sequential()
@@ -89,7 +89,7 @@ def simple_model(input_shape):
     model.add(Dense(128, activation='relu'))
     model.add(BatchNormalization())
     model.add(Dropout(0.5))
-    model.add(Dense(2, activation='softmax')) # 2 because we have cat and dog classes
+    model.add(Dense(2, activation='softmax')) # 2 because we have diabitic rethinophaty vs no diabitic rethinophaty
 
     
     return model
