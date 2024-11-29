@@ -23,9 +23,9 @@ def prep_translearn(model: tf.keras.Model, top_layers_to_cut: int, out_dim: int,
         print(f"After layer {i} ({layer.name}), shape: {x.shape}")
 
     # Add new fine-tuning layers
-    x = tf.keras.layers.Flatten(name="NEW_FLAT")(x)
+    x = tf.keras.layers.GlobalAveragePooling2D(name="NEW_FLAT")(x)
     x = tf.keras.layers.Dense(128, activation='relu', name="NEW_Signature")(x)
-    # x = tf.keras.layers.Dropout(0.3, name="NEW_Dropout")(x)  # Dropout layer added manualy
+    x = tf.keras.layers.Dropout(0.2, name="NEW_Dropout")(x)  # Dropout layer added manualy
     output = tf.keras.layers.Dense(out_dim, activation='softmax', name="NEW_output")(x)
 
     # Create and compile the new model
