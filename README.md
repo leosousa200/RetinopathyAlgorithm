@@ -15,10 +15,10 @@ Ocular Disease Recognition (dataset2): https://www.kaggle.com/datasets/andrewmvd
 - **trainFull**: Train a CNN using the entire dataset1.
 - **trainAL**: First train a model of CNN with an initial set of random seeds from dataset1, then perform Active Learning loop by iteratively adding new samples (those with the highest uncertainties).
 - **DR_evaluation**: Compare the performance and data usage of the full model and the Active Learning (AL) model mentioned above.
-- **transferLearning_downsample**: Perform Transfer Learning on the trainAL model (freezing the top 10 layers) to enable Hypertensive Retinopathy detection. This is done using dataset2, downsampling it to balance the database, followed by an evaluation of the results.
+- **transferLearning_undersample**: Perform Transfer Learning on the trainAL model (freezing the top 10 layers) to enable Hypertensive Retinopathy detection. This is done using dataset2, undersampling it to balance the database, followed by an evaluation of the results.
 - **dataAugmentation**: Generate new images for dataset2 to address its imbalance.
 - **transferLearning_augmentated**: Perform Transfer Learning on the trainAL model (also freezing the top 10 layers) to enable Hypertensive Retinopathy detection, using dataset2 plus images obtained from dataAugmentation, followed by an evaluation of the results.
-- **TL_evaluation**: Compare the performance of both transfer learning models (downsampling vs. data augmentation).
+- **TL_evaluation**: Compare the performance of both transfer learning models (undersampling vs. data augmentation).
 
 ### How to execute
 
