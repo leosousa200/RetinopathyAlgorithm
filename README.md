@@ -38,3 +38,7 @@ Ocular Disease Recognition (dataset2): https://www.kaggle.com/datasets/andrewmvd
 #### Install python libraries
 
 - pip install -r requirements.txt
+
+#### Starting point code for active learning
+
+https://github.com/Arindam75/ActiveLearning
